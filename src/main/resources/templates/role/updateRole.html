@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
-  <meta name="_csrf" th:content="${_csrf.token}">
-  <meta name="_csrf_header" th:content="${_csrf.headerName}">
+ <!-- <meta name="_csrf" th:content="${_csrf.token}">
+  <meta name="_csrf_header" th:content="${_csrf.headerName}">-->
   <meta name="rid" th:content="${role.rid}">
   <script type="text/javascript" src="../js/jquery.js"></script>
   <link rel="stylesheet" href="../js/script/zTree_v3/css/demo.css" type="text/css">
@@ -50,372 +50,8 @@
     };
     var rid = $("meta[name='rid']").attr("content");
     //初始化权限树
-    //myInitTree("treeDemo", "treeList?rid="+rid);
-    
-    var zNodes = [
-    {
-        "id": 1,
-        "name": "系统管理",
-        "checked": true,
-        "open": true,
-        "children": [
-            {
-                "id": 11,
-                "name": "用户权限管理",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 111,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 112,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 113,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 114,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 115,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 116,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            },
-            {
-                "id": 12,
-                "name": "角色管理",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 121,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 122,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 123,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 124,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 125,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 126,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "name": "数据可视化",
-        "checked": true,
-        "open": true,
-        "children": [
-            {
-                "id": 21,
-                "name": "实时疫情数据",
-                "checked": true,
-                "open": true,
-                "children": null
-            },
-            {
-                "id": 22,
-                "name": "全国各省份确诊数据",
-                "checked": true,
-                "open": true,
-                "children": null
-            },
-            {
-                "id": 23,
-                "name": "时间疫情趋势统计",
-                "checked": true,
-                "open": true,
-                "children": null
-            },
-            {
-                "id": 24,
-                "name": "境外输入确诊数据统计",
-                "checked": true,
-                "open": true,
-                "children": null
-            },
-            {
-                "id": 25,
-                "name": "救援物资使用情况统计",
-                "checked": true,
-                "open": true,
-                "children": null
-            }
-        ]
-    },
-    {
-        "id": 3,
-        "name": "数据维护",
-        "checked": true,
-        "open": true,
-        "children": [
-            {
-                "id": 31,
-                "name": "物资消耗",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 311,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 312,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 313,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 314,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 315,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 316,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            },
-            {
-                "id": 32,
-                "name": "全国省份确诊数据",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 321,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 322,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 323,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 324,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 325,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 326,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            },
-            {
-                "id": 33,
-                "name": "时间疫情数据维护",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 331,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 332,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 333,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 334,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 335,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 336,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            },
-            {
-                "id": 34,
-                "name": "境外输入确诊数据",
-                "checked": true,
-                "open": true,
-                "children": [
-                    {
-                        "id": 341,
-                        "name": "查询",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 342,
-                        "name": "新增",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 343,
-                        "name": "修改",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 344,
-                        "name": "删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 345,
-                        "name": "批量删除",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    },
-                    {
-                        "id": 346,
-                        "name": "详情",
-                        "checked": true,
-                        "open": true,
-                        "children": null
-                    }
-                ]
-            }
-        ]
-    }
-];
-    $(document).ready(function() {
-				$.fn.zTree.init($("#treeDemo"), setting, zNodes);
-			});
+    myInitTree("treeDemo", "/treeList?rid="+rid);
+
   </script>
 
   <script type="text/javascript">
@@ -445,7 +81,7 @@
   </ul>
 </div>
 
-<form action="updateRole" method="post" id="updateForm">
+<form action="/updateRole" method="post" id="updateForm">
   <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
   <input type="hidden" name="rid"  th:value="${role.rid}"/>
   <input type="hidden" name="menuIds"  id="menuIds" />
@@ -456,7 +92,8 @@
           <tr>
             <td width="66" height="30">角色名称:</td>
             <td width="478" class="inputText">
-              <input type="text" id="rname" name="rname" value="管理员" />
+              <input type="text" id="rname" name="rname" th:value="${role.rname}" />
+                <div th:text="${msg}" id="messageError" style="color: red;position: absolute;margin: -31px 0 0 251px;"></div>
             </td>
             <td width="170">
             </td>
@@ -465,7 +102,8 @@
           <tr>
             <td width="66"><span style="position: relative;top: -5px;">角色描述:</span></td>
             <td width="478" class="inputText">
-              <textarea rows="3" cols="24" name="rdesc">管理人员，拥有所有菜单权限
+              <textarea rows="3" cols="24" name="rdesc" th:text="${role.rdesc}">
+
               </textarea>
             </td>
             <td width="170">

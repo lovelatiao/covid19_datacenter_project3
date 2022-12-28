@@ -30,7 +30,7 @@
     <li><a href="#">修改省份确诊病例</a></li>
   </ul>
 </div>
-<form action="updateProvince" method="post" class="form" id="updateForm">
+<form action="/updateProvince" method="post" class="form" id="updateForm">
   <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
   <input type="hidden" th:value="${province.datetime}" name="datetime"/>
   <input type="hidden" th:value="${province.locationId}" name="locationId"/>
@@ -40,7 +40,7 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td width="66" height="30">日期:</td>
-            <td width="130" class="inputText">2021-12-24
+            <td width="130" class="inputText" th:text="${province.datetime}">
             </td>
             <td width="170">
             </td>
@@ -48,7 +48,7 @@
 
           <tr>
             <td width="66" height="30">省&nbsp;&nbsp;&nbsp;&nbsp;份:</td>
-            <td width="178" class="inputText">北京
+            <td width="178" class="inputText" th:text="${province.provinceShortName}">
             </td>
             <td width="170">
             </td>
@@ -57,43 +57,26 @@
           <tr>
             <td width="66" height="30">新增数量:</td>
             <td width="178" class="inputText">
-              <input type="text" th:name="currentConfirmedCount" value="16"/>
-            </td>
-            <td width="170">
-            </td>
-          </tr>
-
+              <input type="text" th:name="currentConfirmedCount" th:value="${province.currentConfirmedCount}"/>
+            </td><td width="170"></td></tr>
           <tr>
             <td width="66" height="30">确诊数量:</td>
             <td width="178" class="inputText">
-              <input type="text" th:name="confirmedCount" value="1180"/>
-            </td>
-            <td width="170">
-            </td>
-          </tr>
-
+              <input type="text" th:name="confirmedCount" th:value="${province.confirmedCount}"/>
+            </td><td width="170"></td></tr>
           <tr>
             <td width="66" height="30">疑似数量:</td>
             <td width="178" class="inputText">
-              <input type="text" th:name="suspectedCount" value="160"/>
-            </td>
-            <td width="170">
-            </td>
+              <input type="text" th:name="suspectedCount" th:value="${province.suspectedCount}"/>
+            </td><td width="170"></td>
           </tr>
-
-          <tr>
-            <td width="66" height="30">治愈数量:</td>
+          <tr><td width="66" height="30">治愈数量:</td>
             <td width="178" class="inputText">
-              <input type="text" th:name="curedCount" value="1006"/>
-            </td>
-            <td width="170">
-            </td>
+              <input type="text" th:name="curedCount" th:value="${province.curedCount}"/>
+            </td><td width="170"></td>
           </tr>
-
-          <tr>
-            <td width="66" height="30">死亡数量:</td>
-            <td width="178" class="inputText">
-              <input type="text" th:name="deadCount" value="9"/>
+          <tr><td width="66" height="30">死亡数量:</td><td width="178" class="inputText">
+              <input type="text" th:name="deadCount" th:value="${province.deadCount}"/>
             </td>
             <td width="170">
             </td>

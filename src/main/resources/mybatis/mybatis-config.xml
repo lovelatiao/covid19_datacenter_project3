@@ -9,4 +9,13 @@
         <package name="com.icss.datacenter.entity"/>
     </typeAliases>
 
+    <!--配置插件-->
+    <plugins>
+        <!--配置分页插件-->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!--设置数据库类型-->
+            <property name="dialect" value="mysql"/>
+        </plugin>
+    </plugins>
+
 </configuration>

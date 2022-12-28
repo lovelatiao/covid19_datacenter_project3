@@ -10,6 +10,17 @@ public class SysUser {
     private String password;//密码
     private Integer rid;//所属的角色编号
 
+    //代表该用户所属的角色信息
+    private Role role;
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
+    }
+
     public Integer getUid() {
         return uid;
     }

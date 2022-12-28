@@ -30,38 +30,30 @@
         <li><a href="#">编辑用户</a></li>
     </ul>
 </div>
-<form action="updateUser" method="post" class="form" id="updateForm">
+<form action="/updateUser" method="post" class="form" id="updateForm">
     <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
     <input type="hidden" th:value="${user.uid}" name="uid"/>
     <table style="margin:20px;" width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
             <td height="245" align="left" valign="top" class="add_main">
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td width="66" height="30">用户账号:</td>
+                    <tr><td width="66" height="30">用户账号:</td>
                         <td width="130" class="inputText">
-                            <input type="text" id="loginName" th:name="username" value="aaa"/>
-                            <div th:text="${msg}" id="messageError" style="color: red;position: absolute;margin: -29px 0 0 190px;">
-
-                            </div>
-                        </td>
-                        <td width="170">
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td width="66" height="30">初始密码:</td>
-                        <td width="178" class="inputText"><input value="123123" type="password" th:name="password"/></td>
-                        <td width="170">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td width="66" height="30">角&nbsp;&nbsp;&nbsp;&nbsp;色:</td>
+                            <input type="text" id="loginName" th:name="username" th:value="${user.username}"/>
+                            <div th:text="${msg}" id="messageError" style="color: red;position: absolute;margin: -29px 0 0 190px;"></div>
+                        </td><td width="170"></td></tr>
+                    <tr><td width="66" height="30">初始密码:</td>
+                        <td width="178" class="inputText"><input th:name="password" th:value="${user.password}" type="text"/></td>
+                        <td width="170"></td></tr>
+                    <tr><td width="66" height="30">角&nbsp;&nbsp;&nbsp;&nbsp;色:</td>
                         <td width="178" class="inputText">
                             <select th:name="rid" class="required">
                                 <option th:value="0">请选择角色</option>
-                                <option selected>管理员</option>
-                                <option>测试人员</option>
+                                <option th:each="role:${roleList}"
+                                        th:text="${role.rname}"
+                                        th:value="${role.rid}"
+                                        th:selected="${role.rid==user.rid}"
+                                ></option>
                             </select>
                         </td>
                         <td width="170">

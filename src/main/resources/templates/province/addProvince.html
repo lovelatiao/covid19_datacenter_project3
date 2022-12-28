@@ -30,7 +30,7 @@
         <li><a href="#">添加省份确诊病例</a></li>
     </ul>
 </div>
-<form action="saveProvince" method="post" class="form" id="addForm">
+<form action="/saveProvince" method="post" class="form" id="addForm">
     <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
     <table style="margin:20px;" width="100%" border="0" cellspacing="0" cellpadding="0">
         <tr>
@@ -52,11 +52,11 @@
                     <tr>
                         <td width="66" height="30">省&nbsp;&nbsp;&nbsp;&nbsp;份:</td>
                         <td width="178" class="inputText">
-                            <select th:name="provinceName" class="required">
-                                <option th:value="0">请选择省份</option>
-                                <option>北京</option>
-                                <option>天津</option>
-                                <option>河北</option>
+                            <select th:name="provinceInfo" class="required">
+                                <option value="">请选择省份</option>
+                                <option th:each="provinceInfo:${provinceInfoList}"
+                                        th:text="${#strings.arraySplit(provinceInfo,',')[1]}"
+                                        th:value="${provinceInfo}"></option>
                             </select>
                         </td>
                         <td width="170">
@@ -76,21 +76,18 @@
                         <td width="170">
                         </td>
                     </tr>
-
                     <tr>
                         <td width="66" height="30">疑似数量:</td>
                         <td width="178" class="inputText"><input type="text" th:name="suspectedCount"/></td>
                         <td width="170">
                         </td>
                     </tr>
-
                     <tr>
                         <td width="66" height="30">治愈数量:</td>
                         <td width="178" class="inputText"><input type="text" th:name="curedCount"/></td>
                         <td width="170">
                         </td>
                     </tr>
-
                     <tr>
                         <td width="66" height="30">死亡数量:</td>
                         <td width="178" class="inputText"><input type="text" th:name="deadCount"/></td>

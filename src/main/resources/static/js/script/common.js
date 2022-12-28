@@ -362,7 +362,6 @@ $(document).ajaxSend(function(e,xhr,options){
 	xhr.setRequestHeader(header,token);
 });
 function myInitTree(id, _url) {
-
 	$.ajax({
 		type : "POST",
 		url : _url,

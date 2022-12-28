@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icss.datacenter.mapper.ProvinceMapper">
+
+    <select id="selectList" resultType="Province">
+        select * from t_covid19_provinces
+        <where>
+            <if test="datetime!=null and datetime!=''">
+                datetime = #{datetime}
+            </if>
+            <if test="provinceShortName!=null and provinceShortName!=''">
+                and provinceShortName = #{provinceShortName}
+            </if>
+        </where>
+    </select>
+
+    <select id="selectDistinctProvinceInfoList" resultType="java.lang.String">
+        select distinct concat(locationId,',',provinceShortName) from t_covid19_provinces
+    </select>
+
+    <select id="selectByDatetimeAndProvinceShortName" resultType="Province">
+        select * from t_covid19_provinces where datetime=#{datetime} and provinceShortName=#{provinceShortName}
+    </select>
+
+    <insert id="insertProvince">
+        insert into t_covid19_provinces(datetime,locationId,
+                                        provinceShortName,currentConfirmedCount,confirmedCount,
+                                        suspectedCount,curedCount,deadCount,pid)
+        values(#{datetime},#{locationId},
+               #{provinceShortName},#{currentConfirmedCount},#{confirmedCount},
+               #{suspectedCount},#{curedCount},#{deadCount},0)
+    </insert>
+
+    <select id="selectByDatetimeAndLocationId" resultType="Province">
+        select * from t_covid19_provinces where datetime=#{datetime} and locationId=#{locationId}
+    </select>
+
+    <update id="updateProvince">
+        update t_covid19_provinces set currentConfirmedCount=#{currentConfirmedCount},
+                                       confirmedCount=#{confirmedCount},
+                                       suspectedCount=#{suspectedCount},
+                                       curedCount=#{curedCount},
+                                       deadCount=#{deadCount}
+        where datetime=#{datetime} and locationId=#{locationId}
+    </update>
+
+    <delete id="deleteByDatetimeAndLocationId">
+        delete from t_covid19_provinces where datetime=#{datetime} and locationId=#{locationId}
+    </delete>
+
+    <delete id="deleteByDatetimeAndLocationIds">
+        delete from t_covid19_provinces where datetime=#{datetime} and locationId in(${locationIds})
+    </delete>
+
+
+</mapper>

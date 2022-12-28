@@ -32,34 +32,24 @@
                 <table width="100%" border="0" cellspacing="0" cellpadding="0">
                     <tr>
                         <td width="66" height="30">用户编号:</td>
-                        <td width="130" class="inputText">
-                        	1
-                        </td>
-                        <td width="170">
-                        </td>
+                        <td width="130" class="inputText" th:text="${user.uid}">
+                        </td><td width="170"></td>
                     </tr>
-
                     <tr>
                         <td width="66" height="30">用户账号:</td>
-                        <td width="130" class="inputText">
-                        	aaa
-                        </td>
-                        <td width="170">
-                        </td>
+                        <td width="130" class="inputText" th:text="${user.username}">
+                        </td><td width="170"></td>
                     </tr>
 
                     <tr>
                         <td width="66" height="30">初始密码:</td>
-                        <td width="178" class="inputText">
-                        	123123
+                        <td width="178" class="inputText" th:text="${user.password}">
                         </td>
-                        <td width="170">
-                        </td>
+                        <td width="170"></td>
                     </tr>
                     <tr>
                         <td width="66" height="30">角&nbsp;&nbsp;&nbsp;&nbsp;色:</td>
-                        <td width="178" class="inputText">
-                        	管理员
+                        <td width="178" class="inputText" th:text="${user.role.rname}">
                         </td>
                         <td width="170">
                         </td>

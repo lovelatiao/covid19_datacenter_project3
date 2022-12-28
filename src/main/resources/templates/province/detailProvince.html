@@ -33,7 +33,7 @@
         <table width="100%" border="0" cellspacing="0" cellpadding="0">
           <tr>
             <td width="66" height="30">日期:</td>
-            <td width="130" class="inputText">2021-12-24
+            <td width="130" class="inputText" th:text="${province.datetime}">
             </td>
             <td width="170">
             </td>
@@ -41,8 +41,7 @@
 
           <tr>
             <td width="66" height="30">省&nbsp;&nbsp;&nbsp;&nbsp;份:</td>
-            <td width="178" class="inputText">
-            	北京
+            <td width="178" class="inputText" th:text="${province.provinceShortName}">
             </td>
             <td width="170">
             </td>
@@ -50,7 +49,7 @@
 
           <tr>
             <td width="66" height="30">新增数量:</td>
-            <td width="178" class="inputText">17
+            <td width="178" class="inputText" th:text="${province.currentConfirmedCount}">
             </td>
             <td width="170">
             </td>
@@ -58,7 +57,7 @@
 
           <tr>
             <td width="66" height="30">确诊数量:</td>
-            <td width="178" class="inputText">1205
+            <td width="178" class="inputText" th:text="${province.confirmedCount}">
             </td>
             <td width="170">
             </td>
@@ -66,7 +65,7 @@
 
           <tr>
             <td width="66" height="30">疑似数量:</td>
-            <td width="178" class="inputText">164
+            <td width="178" class="inputText" th:text="${province.suspectedCount}">
             </td>
             <td width="170">
             </td>
@@ -74,7 +73,7 @@
 
           <tr>
             <td width="66" height="30">治愈数量:</td>
-            <td width="178" class="inputText">1180
+            <td width="178" class="inputText" th:text="${province.curedCount}">
             </td>
             <td width="170">
             </td>
@@ -82,7 +81,7 @@
 
           <tr>
             <td width="66" height="30">死亡数量:</td>
-            <td width="178" class="inputText">9
+            <td width="178" class="inputText" th:text="${province.deadCount}">
             </td>
             <td width="170">
             </td>

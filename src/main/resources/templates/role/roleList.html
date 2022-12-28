@@ -17,7 +17,7 @@
     function deleteRole(rid){
       var flag = window.confirm("删除该角色，角色下的用户也将被删除，确定删除吗？");
       if(flag){
-        window.location.href = "deleteRole?rid="+rid;
+        window.location.href = "/deleteRole?rid="+rid;
       }
     }
     function deleteRoles(){
@@ -29,7 +29,8 @@
           for(var i=0;i<ridcheckeds.length;i++){
             rids += ridcheckeds[i].value+",";
           }
-          window.location.href = "deleteRoles?rids="+rids;
+          rids = rids.substring(0,rids.length-1);
+          window.location.href = "/deleteRoles?rids="+rids;
         }
       }else{
         alert("请至少选择一名要删除的角色");
@@ -41,14 +42,14 @@
 <body>
 <div class="title">
   <h2>角色管理</h2></div>
-<form id="searchForm" action="roleList" method="post">
+<form id="searchForm" action="/roleList" method="post">
   <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
   <input type="hidden" name="currentPage" id="currentPage" th:value="1">
 <div class="query">
   <div class="query-conditions ue-clear">
     <div class="conditions staff ue-clear">
       <label>角色名：</label>
-      <input type="text" name="rname" placeholder="可以直接输入或选择" />
+      <input type="text" name="rname" th:value="${searchRole.rname}" placeholder="可以直接输入或选择" />
       <a href="javascript:;" onclick="gotoPage(1);" style="margin-left: 10px;" class="confirm">查询</a>
     </div>
   </div>
@@ -56,7 +57,7 @@
 </form>
 <!-- 按钮 -->
 <div style="position:absolute;right:0;margin:-45px 5px 0 0">
-  <a href="addRole.html" id="add" class="add">
+  <a href="/addRole.html" id="add" class="add">
     <img src="../images/add_btn.png" name="Image1"  border="0" id="Image1" onmouseover="MM_swapImage('Image1','','../images/add_btn_1.jpg',1)" onmouseout="MM_swapImgRestore()" />
   </a>
 
@@ -79,30 +80,15 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
+    <tr th:each="role:${pageInfo.list}">
       <td class="num"><input style="height: auto;" name="rid" type="checkbox" th:value="${role.rid}"/></td>
-      <td class="num">1</td>
-      <td class="name">管理员</td>
-      <td class="process">管理人员，拥有所有菜单权限</td>
+      <td class="num" th:text="${role.rid}"></td>
+      <td class="name" th:text="${role.rname}"></td>
+      <td class="process" th:text="${role.rdesc}"></td>
       <td class="operate">
-        <a href="detailRole.html">查看详情</a>
-        &nbsp;&nbsp;
-        <a href="updateRole.html">修改</a>
-        &nbsp;&nbsp;
-        <a href="#">删除</a>
-      </td>
-    </tr>
-    <tr>
-      <td class="num"><input style="height: auto;" name="rid" type="checkbox" th:value="${role.rid}"/></td>
-      <td class="num">2</td>
-      <td class="name">测试员</td>
-      <td class="process">测试人员</td>
-      <td class="operate">
-        <a href="detailRole.html">查看详情</a>
-        &nbsp;&nbsp;
-        <a href="updateRole.html">修改</a>
-        &nbsp;&nbsp;
-        <a href="#">删除</a>
+        <a th:href="@{/detailRole(rid=${role.rid})}">查看详情</a>
+        <a th:href="@{/updateRole.html(rid=${role.rid})}">修改</a>
+        <a href="#" th:onclick="deleteRole([[${role.rid}]])">删除</a>
       </td>
     </tr>
     </tbody>
@@ -111,19 +97,28 @@
 <!--<div class="pagination ue-clear"></div>-->
 <div class="pagination ue-clear">
   <div class="goto"><span class="text">转到第</span>
-  	<input id="yema" type="text"><span class="page">页</span>
-  	<a href="javascript:;" onclick="gotoPage(document.getElementById('yema').value);">转</a>
+    <input id="yema" type="text"><span class="page">页</span>
+    <a href="javascript:;" onclick="gotoPage(document.getElementById('yema').value);">转</a>
   </div>
   <div class="pagin-list">
-    <a href="javascript:;" class="prev">
+    <a href="javascript:;"
+       th:onclick="gotoPage([[${pageInfo.prePage}]])"
+       th:if="${pageInfo.pageNum>1}"
+       class="prev">
       &lt;上一页
     </a>
-    <span class="current" >1</span>
-    <a href="javascript:;" class="next">
+    <span class="current" th:text="${pageInfo.pageNum}"></span>
+    <a href="javascript:;"
+       th:onclick="gotoPage([[${pageInfo.nextPage}]])"
+       th:if="${pageInfo.pageNum<pageInfo.pages}"
+       class="next">
       下一页&nbsp;&gt;
     </a>
-   </div>
-  <div class="pxofy">显示第<font>1</font>页，总共<font>10</font>条</div></div>
+  </div>
+  <div class="pxofy">
+    总共<font th:text="${pageInfo.total}"></font>条，
+    总共<font th:text="${pageInfo.pages}"></font>页
+  </div></div>
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>

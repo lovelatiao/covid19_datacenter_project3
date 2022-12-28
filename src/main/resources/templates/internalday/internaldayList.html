@@ -33,7 +33,7 @@
 <body>
 <div class="title">
     <h2>时间疫情数据维护</h2></div>
-<form id="searchForm" action="internaldayList" method="post">
+<form id="searchForm" action="/internaldayList" method="post">
     <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
     <input type="hidden" th:value="1" name="currentPage" id="currentPage" />
     <div class="query" style="width: 580px;border: none;">
@@ -77,89 +77,49 @@
         </tr>
         </thead>
         <tbody>
-         <tr>
-            <td class="num"><input style="height: auto;" name="dateId" type="checkbox" value="20211223"></td>
-            <td class="name">20211223</td>
-            <th class="process">488</th>
-            <th class="process">1132961</th>
-            <th class="process">17082</th>
-            <th class="process">1048230</th>
-            <th class="process">50212</th>
+         <tr th:each="internalday:${pageInfo.list}">
+            <td class="num"><input style="height: auto;" name="dateId" type="checkbox" th:value="${internalday.dateId}"></td>
+            <td class="name" th:text="${internalday.dateId}"></td>
+            <th class="process" th:text="${internalday.confirmedIncr}"></th>
+            <th class="process" th:text="${internalday.confirmedCount}"></th>
+            <th class="process" th:text="${internalday.suspectedCount}"></th>
+            <th class="process" th:text="${internalday.curedCount}"></th>
+            <th class="process" th:text="${internalday.deadCount}"></th>
             <td class="operate">
                 <a href="detailInternalday.html">查看详情</a>
-                &nbsp;
                 <a href="updateInternalday.html">修改</a>
-
                 <a href="#">删除</a>
             </td>
         </tr>
-        <tr style="background-color: rgb(239, 246, 250);">
-            <td class="num"><input style="height: auto;" name="dateId" type="checkbox" value="20211222"></td>
-            <td class="name">20211222</td>
-            <th class="process">1492</th>
-            <th class="process">1262625</th>
-            <th class="process">19112</th>
-            <th class="process">1167910</th>
-            <th class="process">55911</th>
-            <td class="operate">
-                <a href="detailInternalday.html">查看详情</a>
-                &nbsp;
-                <a href="updateInternalday.html">修改</a>
 
-                <a href="#">删除</a>
-            </td>
-        </tr>
-        <tr>
-            <td class="num"><input style="height: auto;" name="dateId" type="checkbox" value="20211221"></td>
-            <td class="name">20211221</td>
-            <th class="process">862</th>
-            <th class="process">1261133</th>
-            <th class="process">19112</th>
-            <th class="process">1167519</th>
-            <th class="process">55911</th>
-            <td class="operate">
-                <a href="detailInternalday.html">查看详情</a>
-                &nbsp;
-                <a href="updateInternalday.html">修改</a>
-
-                <a href="#">删除</a>
-            </td>
-        </tr>
-        <tr style="background-color: rgb(239, 246, 250);">
-            <td class="num"><input style="height: auto;" name="dateId" type="checkbox" value="20211220"></td>
-            <td class="name">20211220</td>
-            <th class="process">909</th>
-            <th class="process">1260271</th>
-            <th class="process">19112</th>
-            <th class="process">1166794</th>
-            <th class="process">55911</th>
-            <td class="operate">
-                <a href="detailInternalday.html">查看详情</a>
-                &nbsp;
-                <a href="updateInternalday.html">修改</a>
-
-                <a href="#">删除</a>
-            </td>
-        </tr>
         </tbody>
     </table>
 </div>
 <!--<div class="pagination ue-clear"></div>-->
 <div class="pagination ue-clear">
-  <div class="goto"><span class="text">转到第</span>
-  	<input id="yema" type="text"><span class="page">页</span>
-  	<a href="javascript:;" onclick="gotoPage(document.getElementById('yema').value);">转</a>
-  </div>
-  <div class="pagin-list">
-    <a href="javascript:;" class="prev">
-      &lt;上一页
-    </a>
-    <span class="current" >1</span>
-    <a href="javascript:;" class="next">
-      下一页&nbsp;&gt;
-    </a>
-   </div>
-  <div class="pxofy">显示第<font>1</font>页，总共<font>10</font>条</div></div>
+    <div class="goto"><span class="text">转到第</span>
+        <input id="yema" type="text"><span class="page">页</span>
+        <a href="javascript:;" onclick="gotoPage(document.getElementById('yema').value);">转</a>
+    </div>
+    <div class="pagin-list">
+        <a href="javascript:;"
+           th:onclick="gotoPage([[${pageInfo.prePage}]])"
+           th:if="${pageInfo.pageNum>1}"
+           class="prev">
+            &lt;上一页
+        </a>
+        <span class="current" th:text="${pageInfo.pageNum}"></span>
+        <a href="javascript:;"
+           th:onclick="gotoPage([[${pageInfo.nextPage}]])"
+           th:if="${pageInfo.pageNum<pageInfo.pages}"
+           class="next">
+            下一页&nbsp;&gt;
+        </a>
+    </div>
+    <div class="pxofy">
+        总共<font th:text="${pageInfo.total}"></font>条，
+        总共<font th:text="${pageInfo.pages}"></font>页
+    </div></div>
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>

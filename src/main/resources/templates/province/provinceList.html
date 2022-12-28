@@ -7,11 +7,29 @@
   <link rel="stylesheet" href="../css/base.css" />
   <link rel="stylesheet" href="../css/info-mgt.css" />
   <link rel="stylesheet" href="../css/WdatePicker.css" />
+  <style type="text/css">
+    .provinceShortNameSelect{
+      width: 173px;
+      padding: 0 10px;
+      height: 28px;
+      border: 1px solid #c5d6e0;
+      outline: none;
+      background: url(../images/inputbg.png) repeat-x;
+    }
+  </style>
   <script type="text/javascript" src="../js/jquery.js"></script>
   <script type="text/javascript" src="../js/chinasofti.js"></script>
   <script type="text/javascript">
-    function gotoPage(){
+    function gotoPage(currentPage){
+      $("#currentPage").val(currentPage);
       $("#searchForm").submit();
+    }
+    function deleteProvince(datetime,locationId){
+      var flag = window.confirm("您确定删除该条信息吗？");
+      if(flag){
+        //将请求发送到能够实现删除指定省份疫情数据信息的处理器上
+        window.location.href="/deleteProvince?datetime="+datetime+"&locationId="+locationId
+      }
     }
 
     function deleteProvinces(){
@@ -19,10 +37,14 @@
       var locationIdcheckeds = $("input:checkbox[name='locationId']:checked");
       var locationIds = "";
       if(locationIdcheckeds.length>0){
-        for(var i=0;i<locationIdcheckeds.length;i++){
-          locationIds += locationIdcheckeds[i].value+",";
+        var flag = window.confirm("您确定要删除选中的多条信息吗？");
+        if(flag){
+          for(var i=0;i<locationIdcheckeds.length;i++){
+            locationIds += locationIdcheckeds[i].value+",";
+          }
+          locationIds = locationIds.substring(0,locationIds.length-1);
+          window.location.href = "/deleteProvinces?locationIds="+locationIds+"&datetime="+datetime;
         }
-        window.location.href = "deleteProvinces?locationIds="+locationIds+"&datetime="+datetime;
       }else{
         alert("请至少选择一个要删除的数据");
       }
@@ -33,25 +55,32 @@
 <body>
 <div class="title">
   <h2>全国省份确诊病例</h2></div>
-<form id="searchForm" action="provinceList" method="post">
+<form id="searchForm" action="/provinceList" method="post">
   <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
+  <input type="hidden" name="currentPage" th:value="1" id="currentPage"/>
   <div class="query" style="width: 580px;border: none;" >
     <div class="query-conditions ue-clear">
       <div class="conditions staff ue-clear" style="width: 580px;">
         <label style="width: 37px;">日期：</label>
-        <input id="datetime" type="text" value="2021-12-24" name="datetime" placeholder="请输入要查询的日期" />
+        <input id="datetime" type="text" th:value="${searchProvince.datetime}" name="datetime" placeholder="请输入要查询的日期" />
 
         <label style="width: 50px;">省份名：</label>
-        <input type="text" th:value="${searchProvince.provinceShortName}" name="provinceShortName" placeholder="可以直接输入或选择" />
-
-        <a href="javascript:;" onclick="gotoPage();" style="margin-left: 10px;" class="confirm">查询</a>
+       <!-- <input type="text" th:value="${searchProvince.provinceShortName}" name="provinceShortName" placeholder="可以直接输入或选择" />-->
+        <select name="provinceShortName" class="provinceShortNameSelect">
+          <option value="">请选择省份名</option>
+          <option th:each="provinceInfo:${provinceInfoList}"
+                  th:text="${#strings.arraySplit(provinceInfo,',')[1]}"
+                  th:value="${#strings.arraySplit(provinceInfo,',')[1]}"
+                  th:selected="${#strings.arraySplit(provinceInfo,',')[1]==searchProvince.provinceShortName}"></option>
+        </select>
+        <a href="javascript:;" onclick="gotoPage(1);" style="margin-left: 10px;" class="confirm">查询</a>
       </div>
     </div>
   </div>
 </form>
 <!-- 按钮 -->
 <div style="position:absolute;right:0;margin:-45px 5px 0 0">
-  <a href="addProvince.html" id="add" class="add">
+  <a href="/addProvince.html" id="add" class="add">
     <img src="../images/add_btn.png" name="Image1"  border="0" id="Image1" onmouseover="MM_swapImage('Image1','','../images/add_btn_1.jpg',1)" onmouseout="MM_swapImgRestore()" />
   </a>
 
@@ -76,77 +105,52 @@
     </tr>
     </thead>
     <tbody>
-    <tr>
-      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="110000"></th>
-      <td class="name">110000</td>
-      <td class="process">北京</td>
-      <th class="process">16</th>
-      <th class="process">1205</th>
-      <th class="process">164</th>
-      <th class="process">1180</th>
-      <th class="process">9</th>
+    <tr th:each="province:${pageInfo.list}">
+      <th class="num">
+        <input style="height: auto;" name="locationId" type="checkbox" th:value="${province.locationId}">
+      </th>
+      <td class="name" th:text="${province.locationId}"></td>
+      <td class="process" th:text="${province.provinceShortName}"></td>
+      <th class="process" th:text="${province.currentConfirmedCount}"></th>
+      <th class="process" th:text="${province.confirmedCount}"></th>
+      <th class="process" th:text="${province.suspectedCount}"></th>
+      <th class="process" th:text="${province.curedCount}"></th>
+      <th class="process" th:text="${province.deadCount}"></th>
       <td class="operate">
-        <a href="detailProvince.html">查看详情</a>
-
-        <a href="updateProvince.html">修改</a>
-
-        <a href="#">删除</a>
+        <a th:href="@{/detailProvince.html(datetime=${province.datetime},locationId=${province.locationId})}">查看详情</a>
+        <a th:href="@{/updateProvince.html(datetime=${province.datetime},locationId=${province.locationId})}">修改</a>
+        <a href="#" th:onclick="deleteProvince([[${province.datetime}]],[[${province.locationId}]])">删除</a>
       </td>
     </tr>
-    <tr style="background-color: rgb(239, 246, 250);">
-      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="120000"></th>
-      <td class="name">120000</td>
-      <td class="process">天津</td>
-      <th class="process">20</th>
-      <th class="process">545</th>
-      <th class="process">50</th>
-      <th class="process">522</th>
-      <th class="process">3</th>
-      <td class="operate">
-        <a href="detailProvince.html">查看详情</a>
 
-        <a href="updateProvince.html">修改</a>
-
-        <a href="#">删除</a>
-      </td>
-    </tr>
-    <tr>
-      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="130000"></th>
-      <td class="name">130000</td>
-      <td class="process">河北</td>
-      <th class="process">0</th>
-      <th class="process">1458</th>
-      <th class="process">0</th>
-      <th class="process">1451</th>
-      <th class="process">7</th>
-      <td class="operate">
-        <a href="detailProvince.html">查看详情</a>
-
-        <a href="updateProvince.html">修改</a>
-
-        <a href="#">删除</a>
-      </td>
-    </tr>
-    <tr style="background-color: rgb(239, 246, 250);">
-      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="140000"></th>
-      <td class="name">140000</td>
-      <td class="process">山西</td>
-      <th class="process">0</th>
-      <th class="process">265</th>
-      <th class="process">64</th>
-      <th class="process">265</th>
-      <th class="process">0</th>
-      <td class="operate">
-        <a href="detailProvince.html">查看详情</a>
-
-        <a href="updateProvince.html">修改</a>
-
-        <a href="#">删除</a>
-      </td>
-    </tr>
     </tbody>
   </table>
 </div>
+
+<div class="pagination ue-clear">
+  <div class="goto"><span class="text">转到第</span>
+    <input id="yema" type="text"><span class="page">页</span>
+    <a href="javascript:;" onclick="gotoPage(document.getElementById('yema').value);">转</a>
+  </div>
+  <div class="pagin-list">
+    <a href="javascript:;"
+       th:onclick="gotoPage([[${pageInfo.prePage}]])"
+       th:if="${pageInfo.pageNum>1}"
+       class="prev">
+      &lt;上一页
+    </a>
+    <span class="current" th:text="${pageInfo.pageNum}"></span>
+    <a href="javascript:;"
+       th:onclick="gotoPage([[${pageInfo.nextPage}]])"
+       th:if="${pageInfo.pageNum<pageInfo.pages}"
+       class="next">
+      下一页&nbsp;&gt;
+    </a>
+  </div>
+  <div class="pxofy">
+    总共<font th:text="${pageInfo.total}"></font>条，
+    总共<font th:text="${pageInfo.pages}"></font>页
+  </div></div>
 </body>
 <script type="text/javascript" src="../js/jquery.js"></script>
 <script type="text/javascript" src="../js/common.js"></script>
