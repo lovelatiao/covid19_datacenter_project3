@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/base.css" />
+  <link rel="stylesheet" href="../css/info-mgt.css" />
+  <link rel="stylesheet" href="../css/WdatePicker.css" />
+  <script type="text/javascript" src="../js/jquery.js"></script>
+  <script type="text/javascript" src="../js/chinasofti.js"></script>
+  <script type="text/javascript">
+    function gotoPage(){
+      $("#searchForm").submit();
+    }
+
+    function deleteProvinces(){
+      var datetime = $("#datetime").val();
+      var locationIdcheckeds = $("input:checkbox[name='locationId']:checked");
+      var locationIds = "";
+      if(locationIdcheckeds.length>0){
+        for(var i=0;i<locationIdcheckeds.length;i++){
+          locationIds += locationIdcheckeds[i].value+",";
+        }
+        window.location.href = "deleteProvinces?locationIds="+locationIds+"&datetime="+datetime;
+      }else{
+        alert("请至少选择一个要删除的数据");
+      }
+    }
+  </script>
+</head>
+
+<body>
+<div class="title">
+  <h2>全国省份确诊病例</h2></div>
+<form id="searchForm" action="provinceList" method="post">
+  <input type="hidden" th:value="${_csrf.token}" name="_csrf" th:if="${_csrf}"/>
+  <div class="query" style="width: 580px;border: none;" >
+    <div class="query-conditions ue-clear">
+      <div class="conditions staff ue-clear" style="width: 580px;">
+        <label style="width: 37px;">日期：</label>
+        <input id="datetime" type="text" value="2021-12-24" name="datetime" placeholder="请输入要查询的日期" />
+
+        <label style="width: 50px;">省份名：</label>
+        <input type="text" th:value="${searchProvince.provinceShortName}" name="provinceShortName" placeholder="可以直接输入或选择" />
+
+        <a href="javascript:;" onclick="gotoPage();" style="margin-left: 10px;" class="confirm">查询</a>
+      </div>
+    </div>
+  </div>
+</form>
+<!-- 按钮 -->
+<div style="position:absolute;right:0;margin:-45px 5px 0 0">
+  <a href="addProvince.html" id="add" class="add">
+    <img src="../images/add_btn.png" name="Image1"  border="0" id="Image1" onmouseover="MM_swapImage('Image1','','../images/add_btn_1.jpg',1)" onmouseout="MM_swapImgRestore()" />
+  </a>
+
+  <a href="#" onclick="deleteProvinces();" id="delete" class="delete" >
+    <img src="../images/delete_btn.png"  border="0" id="Image4" onmouseover="MM_swapImage('Image4','','../images/delete_btn_1.jpg',1)" onmouseout="MM_swapImgRestore()" />
+  </a>
+
+</div>
+<div class="table-box">
+  <table>
+    <thead>
+    <tr>
+      <th class="num"><input style="height: auto;" type="checkbox" id="checkAll"/></th>
+      <th class="name">省份编号</th>
+      <th class="process">省份名称</th>
+      <th class="process">新增确诊数量</th>
+      <th class="process">累计确诊数量</th>
+      <th class="process">疑似病例数量</th>
+      <th class="process">治愈数量</th>
+      <th class="process">死亡数量</th>
+      <th class="operate">操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="110000"></th>
+      <td class="name">110000</td>
+      <td class="process">北京</td>
+      <th class="process">16</th>
+      <th class="process">1205</th>
+      <th class="process">164</th>
+      <th class="process">1180</th>
+      <th class="process">9</th>
+      <td class="operate">
+        <a href="detailProvince.html">查看详情</a>
+
+        <a href="updateProvince.html">修改</a>
+
+        <a href="#">删除</a>
+      </td>
+    </tr>
+    <tr style="background-color: rgb(239, 246, 250);">
+      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="120000"></th>
+      <td class="name">120000</td>
+      <td class="process">天津</td>
+      <th class="process">20</th>
+      <th class="process">545</th>
+      <th class="process">50</th>
+      <th class="process">522</th>
+      <th class="process">3</th>
+      <td class="operate">
+        <a href="detailProvince.html">查看详情</a>
+
+        <a href="updateProvince.html">修改</a>
+
+        <a href="#">删除</a>
+      </td>
+    </tr>
+    <tr>
+      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="130000"></th>
+      <td class="name">130000</td>
+      <td class="process">河北</td>
+      <th class="process">0</th>
+      <th class="process">1458</th>
+      <th class="process">0</th>
+      <th class="process">1451</th>
+      <th class="process">7</th>
+      <td class="operate">
+        <a href="detailProvince.html">查看详情</a>
+
+        <a href="updateProvince.html">修改</a>
+
+        <a href="#">删除</a>
+      </td>
+    </tr>
+    <tr style="background-color: rgb(239, 246, 250);">
+      <th class="num"><input style="height: auto;" name="locationId" type="checkbox" value="140000"></th>
+      <td class="name">140000</td>
+      <td class="process">山西</td>
+      <th class="process">0</th>
+      <th class="process">265</th>
+      <th class="process">64</th>
+      <th class="process">265</th>
+      <th class="process">0</th>
+      <td class="operate">
+        <a href="detailProvince.html">查看详情</a>
+
+        <a href="updateProvince.html">修改</a>
+
+        <a href="#">删除</a>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+</body>
+<script type="text/javascript" src="../js/jquery.js"></script>
+<script type="text/javascript" src="../js/common.js"></script>
+<script type="text/javascript" src="../js/WdatePicker.js"></script>
+<script type="text/javascript" src="../js/jquery.pagination.js"></script>
+<script type="text/javascript">
+  $(".select-title").on("click",function(){
+    $(".select-list").hide();
+    $(this).siblings($(".select-list")).show();
+    return false;
+  })
+  $(".select-list").on("click","li",function(){
+    var txt = $(this).text();
+    $(this).parent($(".select-list")).siblings($(".select-title")).find("span").text(txt);
+  })
+
+  $("tbody").find("tr:odd").css("backgroundColor","#eff6fa");
+
+  showRemind('input[type=text], textarea','placeholder');
+</script>
+</html>

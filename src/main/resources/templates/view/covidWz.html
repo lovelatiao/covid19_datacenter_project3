@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../js/echarts.js"></script>
+    <script src="../js/china.js"></script>
+    <script src="../js/jquery.js"></script>
+    <link href="../css/bootstrap.css" rel="stylesheet"/>
+    <style>
+        * {
+            margin: 0;
+            padding: 0
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+        }
+
+        #main {
+            width: 600px;
+            height: 450px;
+            margin: 150px auto;
+            border: 1px solid #ddd;
+        }
+
+        /*默认长宽比0.75*/
+        .center {
+            margin: auto;
+            width: 70%;
+        }
+    </style>
+</head>
+<body>
+<div style="margin:50px;">
+    <h2 align="center">救援物资使用情况统计</h2>
+</div>
+<div id="covid19_wz" style="width: 1000px;height:400px;" class="center"></div>
+<script type="text/javascript">
+    /*--------------------救援物资-----------------------------*/
+    // 基于准备好的dom，初始化echarts实例
+    var myChart = echarts.init(document.getElementById('covid19_wz'));
+    myChart.setOption({
+        title: {
+            text: '救援物资'
+        },
+        legend: {},
+        tooltip: {},
+        dataset: {
+            // 这里指定了维度名的顺序，从而可以利用默认的维度到坐标轴的映射。
+            dimensions: ['name', '采购', '下拨', '捐赠', '消耗', '需求', '库存'],
+            source: []
+        },
+        xAxis: {
+            type: 'category',
+            data: []
+        },
+        yAxis: {},
+        series: [
+            {type: 'bar'},
+            {type: 'bar'},
+            {type: 'bar'},
+            {type: 'bar'},
+            {type: 'bar'},
+            {type: 'bar'}
+        ]
+    });
+
+    var xdata = [];//x轴
+    setInterval(function () {
+        //$.getJSON("covid/getCovidWz", function (data) {
+        	var data={
+    "data": [
+        {
+            "需求": -41178,
+            "消耗": -35411,
+            "采购": 39565,
+            "下拨": 42151,
+            "name": "84消毒液/瓶",
+            "捐赠": 39540,
+            "库存": 44668
+        },
+        {
+            "需求": -39536,
+            "消耗": -30880,
+            "采购": 35504,
+            "下拨": 36619,
+            "name": "N95口罩/个",
+            "捐赠": 49228,
+            "库存": 50935
+        },
+        {
+            "需求": -37672,
+            "消耗": -39462,
+            "采购": 35343,
+            "下拨": 39807,
+            "name": "一次性手套/副",
+            "捐赠": 41245,
+            "库存": 39261
+        },
+        {
+            "需求": -30040,
+            "消耗": -33792,
+            "采购": 46848,
+            "下拨": 31045,
+            "name": "医用外科口罩/个",
+            "捐赠": 48681,
+            "库存": 62742
+        },
+        {
+            "需求": -33303,
+            "消耗": -45526,
+            "采购": 34850,
+            "下拨": 39406,
+            "name": "医用防护服/套",
+            "捐赠": 46014,
+            "库存": 41441
+        },
+        {
+            "需求": -40288,
+            "消耗": -44052,
+            "采购": 37007,
+            "下拨": 41148,
+            "name": "护目镜/副",
+            "捐赠": 32125,
+            "库存": 25940
+        },
+        {
+            "需求": -45255,
+            "消耗": -44376,
+            "采购": 33282,
+            "下拨": 43519,
+            "name": "电子体温计/个",
+            "捐赠": 36733,
+            "库存": 23903
+        }
+    ],
+    "code": 200,
+    "message": "success"
+};
+            var arr = data.data
+            xdata = []
+            for (var i = 0; i < arr.length; i++) {
+                xdata.push(arr[i].name)
+            }
+            myChart.setOption({
+                dataset: {
+                    source: data.data
+                },
+                xAxis: {
+                    data: xdata
+                }
+            })
+        //})
+    }, 2000)
+</script>
+</body>
+</html>

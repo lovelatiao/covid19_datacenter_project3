@@ -1,0 +1,13 @@
+#配置数据库连接属性
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/bigdata?useSSL=false&useUnicode=true&characterEncoding=UTF8&serverTimezone=GMT
+    username: root
+    password: root
+#mybatis的相关配置
+mybatis:
+  #指定mybatis的配置文件路径
+  config-location: classpath:mybatis/mybatis-config.xml
+  #指定mapper的映射文件路径
+  mapper-locations: classpath:mybatis/mapper/*.xml
